@@ -2,9 +2,139 @@
 <html lang="es">
 <head>
 	<meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>ALTO VOLTAJE</title>
+	<link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="banner">
+	<!--***********************************************************************************************************************************************-->
+	 <div class="login-wrap">
+      <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">DATOS</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">INGRESO</label>
+        <div class="login-form">
+          <!--*****************************************************************  sign-in-htm *************************************************-->
+          <form id="frmContacto" method="POST">
+            <div class="sign-in-htm">
+              <div class="group">
+                <label for="cedula" class="label">CÉDULA</label>
+                <input id="cedula" type="text" class="input cedula" name="cedula" required autofocus minlength="7" maxlength="8">
+              </div>
+              <div class="group">
+                <label for="nombre" class="label">NOMBRES</label>
+                <input id="nombre" type="text" class="input nombres" name="nombres" required minlength="4">
+              </div>
+              <div class="group">
+                <label for="apellido" class="label">APELLIDOS</label>
+                <input id="apellido" type="text" class="input apellidos" name="apellidos" required minlength="3">
+              </div>
+              <div class="group">
+                <label for="telefono" class="label">TELÉFONO</label>
+                <input id="telefono" type="text" class="input telefono" name="telefono" required minlength="11" maxlength="11">
+              </div>
+              <div class="group">
+                <label for="correo" class="label">CORREO</label>
+                <input id="correo" type="text" class="input correo" name="correo" required>
+              </div>
+              <div class="group">
+                <input type="submit" class="button registrar" value="registrar" id="registrar" name="registrar">
+              </div>
+            </div>
+          </form>
+          <!--*****************************************************************  sign-in-htm *************************************************-->
+          <div class="sign-up-htm"><br><br>
+            <form name="frmLogin" method="POST" action="iniciar.php">
+              <div class="group">
+                <label for="user" class="label">USUARIO</label>
+                <input id="user" type="text" class="input" name="u" required>
+              </div>
+              <div class="group">
+                <label for="pass" class="label">CLAVE</label>
+                <input id="pass" type="password" class="input" data-type="password" name="c" required>
+              </div><br>
+              <div class="group">
+                <input type="submit" class="button" value="iniciar" id="iniciar" name="iniciar"><br>
+              </div><br>
+            </form>
+          </div><!--sign-up-htm-->
+        </div><!--Login-Form-->
+      </div><!--Login-html-->
+    </div><!--Login-Wrap-->
+  <!--****************************************************************************************************************************************-->
+  <!-- loader -->
+    <div class="loader">
+      <img
+        src="https://media.giphy.com/media/MEiZ5h8lOkM7rwideE/giphy.gif"
+        alt=""
+      />
+    </div>
 
+   <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script type="text/javascript">
+
+      (function () {
+
+        emailjs.init("user_8Kbu7P3JLyTucpzgdAgPv");
+      })();
+
+      function validate() {
+        let cedula = document.querySelector(".cedula");
+        let nombres = document.querySelector(".nombres");
+        let apellidos = document.querySelector(".apellidos");
+        let telefono = document.querySelector(".telefono");
+        let correo = document.querySelector(".correo");
+        let registrar = document.querySelector(".registrar");
+
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          if (cedula.value == "" || nombres.value == "" || apellidos.value == "" || telefono.value == "" || correo.value == "") {
+            emptyerror();
+          } else {
+            loader.style.display = "flex";
+            sendmail(cedula.value, nombres.value, apellidos.value, telefono.value, correo.value);
+            success();
+            loader.style.display = "none";
+          }
+        });
+      }
+      validate();
+
+      function sendmail(cedula, nombres, apellidos, telefono, correo) {
+        emailjs.send("service_7h3lhup ", "template_moah48g", {
+          to_name: cedula+" / "+nombres+" / "+apellidos,
+          from_name: email,
+          message: telefono+" / "+correo,
+        });
+      }
+
+      function emptyerror() {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Los campos están vacíos!",
+        });
+      }
+
+      function error() {
+        Swal.fire({
+          icon: "error",
+          title: "Algo salió mal",
+          text: "Intenta de nuevo!",
+        });
+      }
+
+      function success() {
+        Swal.fire({
+          icon: "success",
+          title: "Excelente",
+          text: "Conseguiste tu acceso",
+        });
+      }
+    </script>
 </body>
 </html>
